@@ -57,6 +57,8 @@ class Runtime {
         const behaviorArgs = {};
         const behavior = this.currentNode.getBehavior();
 
+        this.sink.logBehavior(behavior.getName());
+
         console.log("");
         console.log("===================================");
         console.log("Executing Behavior:", behavior.getName());

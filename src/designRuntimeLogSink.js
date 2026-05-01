@@ -32,8 +32,11 @@ export default class DesignRuntimeLogSink {
 
     }
 
-    logBehavior() {
-
+    logBehavior(behaviorName) {
+        this.write({
+            "behaviorName": behaviorName,
+            "type": "behavior",
+        })
     }
 
     logFailure() {
