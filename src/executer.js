@@ -11,43 +11,64 @@ class Runtime {
         this.design = design;
         this.worldState = null;
         this.currentNode = null;
+    }
+
+    /**
+     * Initialize the world and visit atomic node.
+     */
+    async run() {
         this.initialize();
-        this.visitCurrentNode();
+        await this.visitCurrentNode();
     }
 
-    getInput (prompt) {
-        return rl.question(prompt);
-    }
-
+    /**
+     * Initializes the runtime:
+     * - Sets up the initial world state.
+     * - Finds the first atomic node in the active graph and sets it as the current node.
+     * - Throws an error if no atomic node is found, as the runtime cannot proceed without a starting point.
+     */
     initialize() {
         this.worldState = {};
         const graph = this.design.graphs.getActiveGraph();
         const atomic = graph.nodes.find((node) => node.isAtomic());
-        if (!atomic) {
-            throw new Error("No atomic node found in the graph.");
-        }
-        const behavior = atomic.getBehavior();
+        if (!atomic) throw new Error("No atomic node found in the graph.");
         this.currentNode = atomic;
     }
 
-    visitCurrentNode() {
+    /**
+     * Gets an input from the user via the command line interface.
+     * @param {String} prompt 
+     * @returns {Promise<String>}
+     */
+    async getInput (prompt) {
+        return rl.question(prompt);
+    }
+
+    async visitCurrentNode() {
+        const behaviorArgs = {};
         const behavior = this.currentNode.getBehavior();
-        console.log("Visiting node:", behavior.getName());
         behavior.setPreWorldState(this.worldState);
-        console.log(behavior.getPreExecutionMeta());
+        const preMeta = behavior.getPreExecutionMeta();
+
+        // Gather required inputs from the user based on pre-execution metadata
+        if (preMeta.requiredInputs && preMeta.requiredInputs.length > 0) {
+            for (const input of preMeta.requiredInputs) {
+                const value = await this.getInput(`Please provide a value for ${input}: `);
+                behaviorArgs[input] = value;
+            }
+        }
+
+        console.log("Arguments:", behaviorArgs);
+        console.log("WorldState:", this.worldState);
+
+        // Execute behavior
+
+        // Log design semantics
+
+        // Go to next valid node based on design semantics and execution result
     }
 }
 
 export const run = async (design) => {
-    const runtime = new Runtime(design);
-    /**
-     * TODO: So ultimately, this is essentially going to be
-     * an execution of the script. So when the script requires
-     * a participant as an input, then I need to request that
-     * and load it into the args. If a required input has a
-     * value, then I need to check if that world state is
-     * satisfied. So I will add a method to the behavior to parse
-     * the input requirements and then use that to execute logic
-     * before executing the script (if the behavior is valid).
-     */
+    new Runtime(design).run();
 };
