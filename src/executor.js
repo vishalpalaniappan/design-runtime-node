@@ -13,6 +13,12 @@ class Runtime {
         this.currentNode = null;
     }
 
+    log () {
+        // Add logging of relevant semantic information here.
+        // Will log to text file for now and use CLP python to compress so that I can
+        // import into workbench for automated debugging.
+    }
+
     /**
      * Initialize the world and visit atomic node.
      */
