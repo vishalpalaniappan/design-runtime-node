@@ -47,6 +47,11 @@ class Runtime {
     async visitCurrentNode() {
         const behaviorArgs = {};
         const behavior = this.currentNode.getBehavior();
+
+        console.log("");
+        console.log("===================================");
+        console.log("Executing Behavior:", behavior.getName());
+        console.log("===================================");
         behavior.setPreWorldState(this.worldState);
         const preMeta = behavior.getPreExecutionMeta();
 
@@ -79,9 +84,29 @@ class Runtime {
 
         console.log("Post Behavior Worldstate:", this.worldState);
 
-        // Log design semantics
+        // Get the possible next behaviors for current node
+        const nextBehaviors = this.currentNode._goToBehaviorIds;
 
-        // Go to next valid node based on design semantics and execution result
+        if (nextBehaviors.length === 0) {
+            console.log("No next behaviors found. Ending execution.");
+            return;
+        }
+
+        // Go through each behavior to find the next valid one
+        for (const nextBehaviorName of nextBehaviors) {
+            const nextNode = this.design.graph.findNode(nextBehaviorName);
+            const nextBehavior = nextNode.getBehavior();
+            nextBehavior.setPreWorldState(this.worldState);
+            const nextPreMeta = nextBehavior.getPreExecutionMeta();
+
+            const isValidBehavior = nextPreMeta.isWorldStateValidForBehavior;
+            if (isValidBehavior || isValidBehavior === null) {
+                this.currentNode = nextNode;
+                await this.visitCurrentNode();
+                // Assuming only one valid next behavior should be possible.
+                break; 
+            }
+        }
     }
 }
 
