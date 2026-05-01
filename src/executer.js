@@ -77,6 +77,10 @@ class Runtime {
             const transformResult = results.output.transform.find((t) => {
                 return t.type === "validate";
             });
+            if (!transformResult) {
+                console.log(results);
+                throw new Error("No validate transform output found in behavior results.");   
+            }
             this.worldState = transformResult.transformationOutput;
         } else {
             throw new Error("No transform output found in behavior results.");
