@@ -1,7 +1,7 @@
 # design-runtime-node
 A tool that executes designs and produces semantic traces for analysis and debugging.
 
-## Background
+## Workflow
 
 This tool executes design files and produces semantic execution traces that can be ingested by the DAL engine. Given a design file, it provides a command-line interface to execute the design and generate traces containing the relevant semantic information. These traces are then consumed by the DAL engine in the workbench, where they are used to perform automated debugging and analysis.
 
@@ -9,7 +9,7 @@ The tool is intended to run on the workbenches server, allowing users to execute
 
 I will share more about this as I continue but I think before I move forward with the automated debugging of execution traces in more detail, I should implement this so that I can complete that process and put it all together. In my first iteration, I intend to provide an interface in the workbench to execute the design with this tool and to bring in the resulting semantic traces to the workbench.
 
-## Workflow
+## Background
 
 In the design-driven software development workflow, the user will first specify a design and use this tool to execute the design and establish its correctness. In this process, they will identify all the invariants intrinsic to the design. Only then will they move forward with the implementation of the design in a programming language. The design is then able to automatically debug the execution because it is the authoritative semantic model. Using the automatic debugging of the execution traces, the design will learn semantics that it must respect to realize its intentions on the substrate. 
 
