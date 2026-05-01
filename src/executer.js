@@ -31,7 +31,10 @@ class Runtime {
     }
 
     visitCurrentNode() {
-
+        const behavior = this.currentNode.getBehavior();
+        console.log("Visiting node:", behavior.getName());
+        behavior.setPreWorldState(this.worldState);
+        console.log(behavior.getPreExecutionMeta());
     }
 }
 
