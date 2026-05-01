@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "clp-ffi-js": "^0.6.1",
-    "dal-engine-core-js-lib-dev": "0.0.44-dev-2",
+    "dal-engine-core-js-lib-dev": "0.0.45-dev-2",
     "require": "^2.4.20"
   },
   "devDependencies": {
