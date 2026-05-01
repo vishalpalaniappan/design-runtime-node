@@ -26,6 +26,8 @@ class Runtime {
     async run() {
         this.initialize();
         await this.visitCurrentNode();
+        console.log("Execution complete. Terminating program.");
+        process.exit(0);
     }
 
     /**
