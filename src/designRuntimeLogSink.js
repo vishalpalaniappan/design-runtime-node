@@ -24,12 +24,23 @@ export default class DesignRuntimeLogSink {
         });
     }
 
-    logParticipant() {
-
+    logParticipant(behaviorName, participantName, participantType, participantValue) {
+        this.write({
+            "behaviorName": behaviorName,
+            "participantName": participantName,
+            "participantType": participantType,
+            "participantValue": participantValue,
+            "type": "participant"
+        })
     }
 
-    logArgument() {
-
+    logArgument(argumentName, argumentValue, behaviorName) {
+        this.write({
+            "argumentName": argumentName,
+            "argumentValue": argumentValue,
+            "behaviorName": behaviorName,
+            "type": "argument"
+        });
     }
 
     logBehavior(behaviorName) {

@@ -59,10 +59,6 @@ class Runtime {
 
         this.sink.logBehavior(behavior.getName());
 
-        console.log("");
-        console.log("===================================");
-        console.log("Executing Behavior:", behavior.getName());
-        console.log("===================================");
         behavior.setPreWorldState(this.worldState);
         const preMeta = behavior.getPreExecutionMeta();
 
@@ -74,8 +70,13 @@ class Runtime {
             }
         }
 
-        console.log("Behavior Arguments:", behaviorArgs);
-        console.log("Pre behavior Worldstate:", this.worldState);
+        for (const argName in behaviorArgs) {
+            this.sink.logArgument(argName, behaviorArgs[argName], behavior.getName());
+        }
+
+        for (const participant in this.worldState) {
+            this.sink.logParticipant(behavior.getName(), participant, "pre", this.worldState[participant]);
+        }
 
         // Set up behavior and compute transformations.
         behavior.setPrimitiveArgs(behaviorArgs);
@@ -97,7 +98,9 @@ class Runtime {
             throw new Error("No transform output found in behavior results.");
         }
 
-        console.log("Post Behavior Worldstate:", this.worldState);
+        for (const participant in this.worldState) {
+            this.sink.logParticipant(behavior.getName(), participant, "post", this.worldState[participant]);
+        }
 
         // Get the possible next behaviors for current node
         const nextBehaviors = this.currentNode._goToBehaviorIds;
