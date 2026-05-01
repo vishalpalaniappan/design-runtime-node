@@ -58,10 +58,26 @@ class Runtime {
             }
         }
 
-        console.log("Arguments:", behaviorArgs);
-        console.log("WorldState:", this.worldState);
+        console.log("Behavior Arguments:", behaviorArgs);
+        console.log("Pre behavior Worldstate:", this.worldState);
 
-        // Execute behavior
+        // Set up behavior and compute transformations.
+        behavior.setPrimitiveArgs(behaviorArgs);
+        behavior.setPreWorldState(this.worldState);
+        behavior.setPostWorldState({});
+        const results = behavior.computeTransformations();
+
+        // Load the new world state
+        if ("transform" in results.output) {
+            const transformResult = results.output.transform.find((t) => {
+                return t.type === "validate";
+            });
+            this.worldState = transformResult.transformationOutput;
+        } else {
+            throw new Error("No transform output found in behavior results.");
+        }
+
+        console.log("Post Behavior Worldstate:", this.worldState);
 
         // Log design semantics
 
