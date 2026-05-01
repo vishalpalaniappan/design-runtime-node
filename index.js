@@ -1,4 +1,4 @@
-import {run} from './src/executer.js';
+import {run} from './src/executor.js';
 import {DALEngine} from "dal-engine-core-js-lib-dev";
 import {readFile} from "fs/promises";
 
