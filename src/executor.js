@@ -11,15 +11,13 @@ class Runtime {
     constructor(design) {
         this.design = design;
         this.worldState = null;
-        this.currentNode = null
-        const sink = new PythonLogSink("./src/pythonLogSink.py");
-        sink.write({event: "Runtime initialized"});
+        this.currentNode = null;
+        this.sink = new PythonLogSink("./src/pythonLogSink.py");
+        this.sink.write({event: "Runtime initialized"});
     }
 
-    log () {
-        // Add logging of relevant semantic information here.
-        // Will log to text file for now and use CLP python to compress so that I can
-        // import into workbench for automated debugging.
+    log (event) {
+        this.sink.write(event);
     }
 
     /**
