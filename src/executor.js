@@ -1,6 +1,6 @@
 import { createInterface } from "node:readline/promises";
 import { stdin, stdout } from "node:process";
-import PythonLogSink from "./logSink.js";
+import DesignRuntimeLogSink from "./designRuntimeLogSink.js";
 
 const rl = createInterface({
     input: stdin,
@@ -12,7 +12,7 @@ class Runtime {
         this.design = design;
         this.worldState = null;
         this.currentNode = null;
-        this.sink = new PythonLogSink("./src/pythonLogSink.py");
+        this.sink = new DesignRuntimeLogSink("./src/pythonLogSink.py");
         this.sink.write({event: "Runtime initialized"});
     }
 
