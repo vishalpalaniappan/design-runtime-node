@@ -1,6 +1,15 @@
 # design-runtime-node
 A tool that executes designs and produces semantic traces for analysis and debugging.
 
+# Usage
+
+From repo root directory:
+```shell
+node src/index.js designs/demo2.dal
+```
+
+This will create a log file in the repo root directory that can be ingested by the engine and automatically debugged. As the workflow below describes, this program will ultimately be used from the workbench, so the workflow that is established there will feed the generated trave to the engine.
+
 ## Workflow
 
 This tool executes design files and produces semantic execution traces that can be ingested by the DAL engine. Given a design file, it provides a command-line interface to execute the design and generate traces containing the relevant semantic information. These traces are then consumed by the DAL engine in the workbench, where they are used to perform automated debugging and analysis.
