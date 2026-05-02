@@ -32,7 +32,8 @@ class Runtime {
         this.initialize();
         await this.visitCurrentNode();
         console.log("Execution complete. Terminating program.");
-        process.exit(0);
+        this.sink.close();
+        rl.close();
     }
 
     /**
@@ -138,5 +139,5 @@ class Runtime {
 }
 
 export const run = async (design) => {
-    new Runtime(design).run();
+    await new Runtime(design).run();
 };
