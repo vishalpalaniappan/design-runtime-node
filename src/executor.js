@@ -98,6 +98,10 @@ class Runtime {
             throw new Error("No transform output found in behavior results.");
         }
 
+        console.log("");
+        console.log("Behavior:", behavior.getName());
+        console.log("World State:", this.worldState);
+        console.log("");
         for (const participant in this.worldState) {
             this.sink.logParticipant(behavior.getName(), participant, "post", this.worldState[participant]);
         }
