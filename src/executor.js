@@ -88,7 +88,18 @@ class Runtime {
         behavior.setPrimitiveArgs(behaviorArgs);
         behavior.setPreWorldState(this.worldState);
         behavior.setPostWorldState({});
-        const results = behavior.computeTransformations();
+
+        let results;
+        try {
+            // TODO: Modify computeTransformations so that it throws the error
+            // instead of catching it and displaying it.
+            results = behavior.computeTransformations();
+        } catch (e) {
+            this.sink.logFailure(behavior.getName());
+            console.error(`Error executing behavior ${behavior.getName()}:`, e);
+            return;
+        }
+        
 
         // Load the new world state
         if ("transform" in results.output) {

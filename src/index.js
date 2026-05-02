@@ -16,4 +16,4 @@ if (args.length < 3) {
 
 const path = args[2];
 const designEngine = await loadDesign(path);
-run(designEngine);
+await run(designEngine);

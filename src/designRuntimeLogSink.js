@@ -50,8 +50,11 @@ export default class DesignRuntimeLogSink {
         })
     }
 
-    logFailure() {
-
+    logFailure(behaviorName) {
+        this.write({
+            "behaviorName": behaviorName,
+            "type": "failure",
+        })
     }
 
     write(event) {
