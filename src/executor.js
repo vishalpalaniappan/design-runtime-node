@@ -89,20 +89,19 @@ class Runtime {
         behavior.setPreWorldState(this.worldState);
         behavior.setPostWorldState({});
 
-        let results;
-        try {
-            // TODO: Modify computeTransformations so that it throws the error
-            // instead of catching it and displaying it.
-            results = behavior.computeTransformations();
-        } catch (e) {
-            this.sink.logFailure(behavior.getName());
-            console.error(`Error executing behavior ${behavior.getName()}:`, e);
-            return;
-        }
-        
+        const results = behavior.computeTransformations();
 
         // Load the new world state
         if ("transform" in results.output) {
+            
+            // Check if computation failed and log failure if it did.
+            const failedTransform = results.output.transform.find((t) => t.type === "error");
+            if (failedTransform) {
+                this.sink.logFailure(behavior.getName());
+                console.error(`Error executing behavior ${behavior.getName()}:`);
+                return;
+            }
+
             const transformResult = results.output.transform.find((t) => {
                 return t.type === "validate";
             });
