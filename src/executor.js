@@ -13,7 +13,6 @@ class Runtime {
         this.worldState = null;
         this.currentNode = null;
         this.sink = new DesignRuntimeLogSink("./src/pythonLogSink.py");
-        this.sink.write({event: "Runtime initialized"});
     }
 
     log (event) {
