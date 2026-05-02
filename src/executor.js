@@ -1,6 +1,11 @@
 import { createInterface } from "node:readline/promises";
 import { stdin, stdout } from "node:process";
 import DesignRuntimeLogSink from "./designRuntimeLogSink.js";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const rl = createInterface({
     input: stdin,
@@ -12,7 +17,8 @@ class Runtime {
         this.design = design;
         this.worldState = null;
         this.currentNode = null;
-        this.sink = new DesignRuntimeLogSink("./src/pythonLogSink.py");
+        const filePath = path.join(__dirname, "pythonLogSink.py");
+        this.sink = new DesignRuntimeLogSink(filePath);
     }
 
     log (event) {
