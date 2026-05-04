@@ -3,7 +3,12 @@ A tool that executes designs and produces semantic traces for analysis and debug
 
 # Usage
 
-From repo root directory:
+Generic usage from repo root directory:
+```shell
+node src/index.js <path_to_design_file>
+```
+
+Example from repo root directory:
 ```shell
 node src/index.js designs/demo2.dal
 ```
