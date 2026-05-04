@@ -128,7 +128,7 @@ class Runtime {
                 return t.type === "validate";
             });
             if (!transformResult) {
-                console.log(results);
+                console.error("Transform results:", results);
                 throw new Error("No validate transform output found in behavior results.");   
             }
             this.worldState = transformResult.transformationOutput;
