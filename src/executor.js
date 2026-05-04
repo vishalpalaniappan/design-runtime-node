@@ -7,19 +7,25 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const rl = createInterface({
-    input: stdin,
-    output: stdout,
-});
-
 class Runtime {
     constructor(design) {
+        // Core runtime state
         this.design = design;
         this.worldState = null;
         this.currentNode = null;
+        
+        // Debug flags
+        this.showInConsole = true;
+
+        // Python log sink setup
         const filePath = path.join(__dirname, "pythonLogSink.py");
         this.sink = new DesignRuntimeLogSink(filePath);
-        this.showInConsole = true;
+
+        // CLI setup needed for getting user input for behavior arguments and other prompts.
+        this.rl = createInterface({
+            input: stdin,
+            output: stdout,
+        });
     }
 
     log (event) {
@@ -34,7 +40,7 @@ class Runtime {
         await this.visitCurrentNode();
         console.log("Execution complete. Terminating program.");
         await this.sink.close();
-        rl.close();
+        this.rl.close();
     }
 
     /**
@@ -57,7 +63,7 @@ class Runtime {
      * @returns {Promise<String>}
      */
     async getInput (prompt) {
-        return rl.question(prompt);
+        return this.rl.question(prompt);
     }
 
     displayInConsole(behavior) {
