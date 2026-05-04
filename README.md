@@ -8,7 +8,7 @@ From repo root directory:
 node src/index.js designs/demo2.dal
 ```
 
-This will create a log file in the repo root directory that can be ingested by the engine and automatically debugged. As the workflow below describes, this program will ultimately be used from the workbench, so the workflow that is established there will feed the generated trave to the engine.
+This will create a log file in the repo root directory that can be ingested by the engine and automatically debugged. As the workflow below describes, this program will ultimately be used from the workbench, so the workflow that is established there will feed the generated trace to the engine.
 
 ## Workflow
 
