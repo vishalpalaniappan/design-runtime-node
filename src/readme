@@ -1,7 +1,13 @@
 # Usage 
 
+Example design execution using trace:
 ```shell
 node src/index.js designs/demo2.dal traces/sample2.clp.zst
+```
+
+Example implementation exexution using trace:
+```shell
+node src/implementationExecutor.js designs/library_manager.py traces/sample2.clp.zst 
 ```
 
 # Planning
