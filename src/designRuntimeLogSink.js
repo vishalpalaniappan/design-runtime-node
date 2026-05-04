@@ -72,6 +72,9 @@ export default class DesignRuntimeLogSink {
     }
 
     close() {
-        this.proc.stdin.end();
+        return new Promise((resolve) => {
+            this.proc.on("exit", () => resolve());
+            this.proc.stdin.end();
+        });
     }
 }

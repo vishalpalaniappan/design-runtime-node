@@ -33,7 +33,7 @@ class Runtime {
         this.initialize();
         await this.visitCurrentNode();
         console.log("Execution complete. Terminating program.");
-        this.sink.close();
+        await this.sink.close();
         rl.close();
     }
 
