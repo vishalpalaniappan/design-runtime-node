@@ -36,11 +36,14 @@ class Runtime {
      * Initialize the world and visit atomic node.
      */
     async run() {
-        this.initialize();
-        await this.visitCurrentNode();
-        console.log("Execution complete. Terminating program.");
-        await this.sink.close();
-        this.rl.close();
+        try {
+            this.initialize();
+            await this.visitCurrentNode();
+            console.log("Execution complete. Terminating program.");
+        } finally {
+            await this.sink.close();
+            this.rl.close();
+        }
     }
 
     /**
