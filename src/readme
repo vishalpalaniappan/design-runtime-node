@@ -1,3 +1,9 @@
+# Usage 
+
+```shell
+node src/index.js designs/demo2.dal traces/sample2.clp.zst
+```
+
 # Planning
 
 The fundamental premise here is that when executing the design and implementation using eh traces, we are once again understanding it through the design. The inputs in the traces are impulses into the design and the behavior is the response. The order of those inputs is preserved by the trace and is reintroduced into the design.

@@ -8,11 +8,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 class Runtime {
-    constructor(design) {
+    constructor(design, inputs) {
         // Core runtime state
         this.design = design;
         this.worldState = null;
         this.currentNode = null;
+        this.inputs = inputs;
         
         // Debug flags
         this.showInConsole = true;
@@ -74,7 +75,12 @@ class Runtime {
      * @returns {Promise<String>}
      */
     async getInput (prompt) {
-        return this.rl.question(prompt);
+        if (this.inputs) {
+            const input = this.inputs.shift();
+            return input.argumentValue;
+        } else {
+            return this.rl.question(prompt);
+        }
     }
 
     displayInConsole(behavior) {
@@ -179,6 +185,6 @@ class Runtime {
     }
 }
 
-export const run = async (design) => {
-    await new Runtime(design).run();
+export const run = async (design, inputs) => {
+    await new Runtime(design, inputs).run();
 };

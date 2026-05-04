@@ -32,8 +32,4 @@ const collectInputs = async (path) => {
     return inputs;
 }
 
-const pathToTrace = "./traces/511f5ab8-53c6-46e4-9579-493dcd2ab78e.clp.zst";
-const inputs = await collectInputs(pathToTrace);
-console.log(inputs);
-
 export default collectInputs;
