@@ -20,7 +20,9 @@ export default class DesignRuntimeLogSink {
         });
 
         this.proc.on("exit", (code) => {
-            console.error(`Python log sink exited with code ${code}`);
+            if (code !== 0) {
+                console.error(`Python log sink exited with code ${code}`);
+            }
         });
     }
 
