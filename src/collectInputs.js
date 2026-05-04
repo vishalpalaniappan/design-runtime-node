@@ -16,16 +16,24 @@ async function loadTrace (path) {
 
 const collectInputs = async (path) => {
     const logs = await loadTrace(path);
+    const inputs = [];
 
     for (const log of logs) {
         const msg = JSON.parse(log.message);
-        const userGenerated = msg["user-generated"];
-        if (userGenerated && userGenerated.type === "argument") {
-            console.log(userGenerated);
+        if (msg && "user-generated" in msg) {
+            const userGenerated = msg["user-generated"];
+            if (userGenerated.type === "argument") {
+                inputs.push(userGenerated);
+            }
+        } else {
+            throw new Error(`Log message does not contain "user-generated" field: ${log.message}`); 
         }
     }
+    return inputs;
 }
 
-collectInputs("./traces/511f5ab8-53c6-46e4-9579-493dcd2ab78e.clp.zst");
+const pathToTrace = "./traces/511f5ab8-53c6-46e4-9579-493dcd2ab78e.clp.zst";
+const inputs = await collectInputs(pathToTrace);
+console.log(inputs);
 
 export default collectInputs;
