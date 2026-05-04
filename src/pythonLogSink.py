@@ -2,10 +2,9 @@ import sys
 import json
 import os
 import logging
+import uuid
 from pathlib import Path
 from clp_logging.handlers import ClpKeyValuePairStreamHandler
-
-import os, uuid
 
 ADLI_EXECUTION_ID = str(uuid.uuid4())
 
