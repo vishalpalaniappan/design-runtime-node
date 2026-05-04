@@ -1,5 +1,7 @@
 # Planning
 
+In think the fundamental premise in both the design and implementation execution using traces is that we are once again understanding through the design. The inputs in the traces are impulses into the design and the behavior is the response. The order of those inputs is preserved by the trace and is reintroduced into the design.
+
 # Executing Designs from Traces
 
 My current thoughts on how I want to proceed are as follows:
@@ -13,6 +15,6 @@ Initially, this will just prove out how preserved environments can be used to te
 
 The inputs are happening in a given order, when we parse the log file to collect all the arguments, we are collecting those inputs in that order. The behavior of the design itself is what changes in response to the environment, the inputs are from the trace file and they are fixed conditions under which the design is being evaluated. 
 
-In fact, this extends very cleanly to distributed systems, each impulse into a distributed system creates a response in the design, the actual temporal order of the impulses can be preserved because it is a controlled test environment. You can test what were traditionally very complex distributed configurations in a very clean way.
+In fact, this extends very cleanly to distributed systems, each impulse into a distributed system creates a response in the design, the actual temporal order of the impulses can be preserved because it is a controlled test environment. You can test what were traditionally very complex distributed configurations that were hard to reproduce in a very clean way.
 
 Using this, the implementation can be tested using the preserved environments in a very effective way and it isn't very different from testing the design itself in this way.
