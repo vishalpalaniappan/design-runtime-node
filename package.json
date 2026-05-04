@@ -1,0 +1,19 @@
+{
+  "name": "design-runtime-node",
+  "version": "0.0.0",
+  "description": "A tool that executes designs and produces semantic traces for analysis and debugging.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "clp-ffi-js": "^0.6.1",
+    "dal-engine-core-js-lib-dev": "0.0.45-dev-2",
+    "require": "^2.4.20"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.0"
+  }
+}
