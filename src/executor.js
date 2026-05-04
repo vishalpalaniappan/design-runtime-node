@@ -143,10 +143,12 @@ class Runtime {
             });
             if (!transformResult) {
                 console.error("Transform results:", results);
+                this.sink.logFailure(behavior.getName());
                 throw new Error("No validate transform output found in behavior results.");   
             }
             this.worldState = transformResult.transformationOutput;
         } else {
+            this.sink.logFailure(behavior.getName());
             throw new Error("No transform output found in behavior results.");
         }
 
