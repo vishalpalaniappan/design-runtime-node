@@ -19,6 +19,7 @@ class Runtime {
         this.currentNode = null;
         const filePath = path.join(__dirname, "pythonLogSink.py");
         this.sink = new DesignRuntimeLogSink(filePath);
+        this.showInConsole = true;
     }
 
     log (event) {
@@ -57,6 +58,14 @@ class Runtime {
      */
     async getInput (prompt) {
         return rl.question(prompt);
+    }
+
+    displayInConsole(behavior) {
+        if (!this.showInConsole) return;
+        console.log("");
+        console.log("Behavior:", behavior.getName());
+        console.log("World State:", this.worldState);
+        console.log("");
     }
 
     async visitCurrentNode() {
@@ -114,10 +123,9 @@ class Runtime {
             throw new Error("No transform output found in behavior results.");
         }
 
-        console.log("");
-        console.log("Behavior:", behavior.getName());
-        console.log("World State:", this.worldState);
-        console.log("");
+
+        this.displayInConsole(behavior);
+
         for (const participant in this.worldState) {
             this.sink.logParticipant(behavior.getName(), participant, "post", this.worldState[participant]);
         }
