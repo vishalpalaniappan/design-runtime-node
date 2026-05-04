@@ -64,6 +64,9 @@ export default class DesignRuntimeLogSink {
     }
 
     write(event) {
+        // TODO: use msgpack for seralizing the event
+        // using json for now for simplicity but it is obviously not
+        // the right choice and its limitations will become clear.
         const line = JSON.stringify(event) + "\n";
         this.proc.stdin.write(line);
     }
