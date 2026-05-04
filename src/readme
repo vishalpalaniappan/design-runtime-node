@@ -1,0 +1,22 @@
+# Planning
+
+# Executing Designs from Traces
+
+My current thoughts on how I want to proceed are as follows:
+- Parse the execution trace to extract all the inputs using the logged arguments.
+- Save these inputs in an array.
+- When the design runtime is executed, instead of getting inputs from the user, pull them from the saved inputs.
+
+Initially, this will just prove out how preserved environments can be used to test the behavior of the design. However, this will become more useful when an invariant is learnt from a failed root cause analysis, then the trace contains an environment that allows the design to prove it prevents the semantically invalid state from persisting in its reality.
+
+## Executing Implementation from Traces
+
+This is probably not the right place to add this but I thought of this as part of this process, so I am adding it here.
+
+Early thoughts:
+
+Since the implementation is actively logging its behavior, if we can access the trace file, then we know which behavior the implementation is exhibiting. Then we can use that to provide the inputs to the implementation.
+
+To do this, I will create an executor that will run the implemntations in a shell where I can provide the inputs. This same executor will be reading the log file as the application writes to it and it will provide the necessary inputs.
+
+The leap from executing the design using traces to executing implementation using traces won't be that large. Distributed execution of implementation will be more interesting because I need to think about how I will delegate the nodes with the relevant information etc but that shouldn't be a problem because it is a controlled environment.
