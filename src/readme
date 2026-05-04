@@ -11,13 +11,8 @@ Initially, this will just prove out how preserved environments can be used to te
 
 ## Executing Implementation from Traces
 
-This is probably not the right place to add this but I thought of this as part of this process, so I am adding it here.
+The inputs are happening in a given order, when we parse the log file to collect all the arguments, we are collecting those inputs in that order. The behavior of the design itself is what changes in response to the environment, the inputs are from the trace file and they are fixed conditions under which the design is being evaluated. 
 
-Update: 
-After thinking about it some more, I actually think this is even more trivial than I initially thought it was. Within the design, the inputs are happening in a given order, when we parse the log file to collect all the arguments, we are collecting those inputs in that order. The behavior of the design itself is what changes in response to the environment, the inputs are from the trace file and they are fixed conditions under which the design is being evaluated.
+In fact, this extends very cleanly to distributed systems, each impulse into a distributed system creates a response in the design, the actual temporal order of the impulses can be preserved because it is a controlled test environment. You can test what were traditionally very complex distributed configurations in a very clean way.
 
-Early thoughts:
-
-Since the implementation is actively logging its behavior, if we can access the trace file, then we know which behavior the implementation is exhibiting. Then we can use that to provide the inputs to the implementation. To do this, I will create an executor that will run the implemntations in a shell where I can provide the inputs. This same executor will be reading the log file as the application writes to it and it will provide the necessary inputs. 
-
-It might not even need to read the log file to be honest, the inputs are happening in an order in the design, it might not be necessary. There is more to think about here and I haven't thought about it enough to say more. However, as usual, for me, actually implementing it is the best way to learn how it works, so I will define this more closely when I get there.
+Using this, the implementation can be tested using the preserved environments in a very effective way and it isn't very different from testing the design itself in this way.
