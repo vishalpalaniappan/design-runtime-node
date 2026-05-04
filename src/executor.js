@@ -72,10 +72,12 @@ class Runtime {
         const behaviorArgs = {};
         const behavior = this.currentNode.getBehavior();
 
+        // Log the behavior being executed
         this.sink.logBehavior(behavior.getName());
 
-        behavior.setPreWorldState(this.worldState);
+        // Get pre-execution metadata for the behavior and set the pre-world state for the behavior.
         const preMeta = behavior.getPreExecutionMeta();
+        behavior.setPreWorldState(this.worldState);
 
         // Gather required inputs from the user based on pre-execution metadata
         if (preMeta.requiredInputs && preMeta.requiredInputs.length > 0) {
@@ -85,10 +87,12 @@ class Runtime {
             }
         }
 
+        // Log the behavior arguments for the current behavior
         for (const argName in behaviorArgs) {
             this.sink.logArgument(argName, behaviorArgs[argName], behavior.getName());
         }
 
+        // Log the pre-world state for each participant before executing the behavior
         for (const participant in this.worldState) {
             this.sink.logParticipant(behavior.getName(), participant, "pre", this.worldState[participant]);
         }
@@ -97,7 +101,6 @@ class Runtime {
         behavior.setPrimitiveArgs(behaviorArgs);
         behavior.setPreWorldState(this.worldState);
         behavior.setPostWorldState({});
-
         const results = behavior.computeTransformations();
 
         // Load the new world state
@@ -111,6 +114,7 @@ class Runtime {
                 return;
             }
 
+            // Find the validate transform output to update the world state.
             const transformResult = results.output.transform.find((t) => {
                 return t.type === "validate";
             });
@@ -126,6 +130,7 @@ class Runtime {
 
         this.displayInConsole(behavior);
 
+        // Log the post-world state for each participant after executing the behavior
         for (const participant in this.worldState) {
             this.sink.logParticipant(behavior.getName(), participant, "post", this.worldState[participant]);
         }
@@ -133,6 +138,7 @@ class Runtime {
         // Get the possible next behaviors for current node
         const nextBehaviors = this.currentNode._goToBehaviorIds;
 
+        // If there are no next behaviors, end execution.
         if (nextBehaviors.length === 0) {
             console.log("No next behaviors found. Ending execution.");
             return;
