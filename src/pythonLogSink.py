@@ -20,3 +20,5 @@ for line in sys.stdin:
         logger.info(event)
     except Exception as e:
         print(f"LOG_SINK_ERROR: {e}", file=sys.stderr)
+
+clp_handler.close()
