@@ -15,5 +15,10 @@ if (args.length < 3) {
 }
 
 const path = args[2];
-const designEngine = await loadDesign(path);
-await run(designEngine);
+try {
+    const designEngine = await loadDesign(path);
+    await run(designEngine);
+} catch (err) {
+    console.error(`Error: ${err.message}`);
+    process.exit(1);
+}
