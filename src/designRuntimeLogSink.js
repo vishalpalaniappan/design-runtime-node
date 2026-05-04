@@ -19,6 +19,10 @@ export default class DesignRuntimeLogSink {
             stdio: ["pipe", "inherit", "inherit"],
         });
 
+        this.proc.stdin.on("error", (err) => {
+            console.error(`Log sink stdin error: ${err.message}`);
+        });
+
         this.proc.on("exit", (code) => {
             if (code !== 0) {
                 console.error(`Python log sink exited with code ${code}`);
