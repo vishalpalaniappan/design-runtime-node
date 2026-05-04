@@ -38,7 +38,15 @@ class Runtime {
     async run() {
         try {
             this.initialize();
-            await this.visitCurrentNode();
+            while (this.currentNode) {
+                const nextNode = await this.visitCurrentNode();
+                if (!nextNode) {
+                    this.currentNode = null;
+                    break;
+                } else {
+                    this.currentNode = nextNode;
+                }
+            }
             console.log("Execution complete. Terminating program.");
         } finally {
             await this.sink.close();
@@ -150,7 +158,7 @@ class Runtime {
         // If there are no next behaviors, end execution.
         if (nextBehaviors.length === 0) {
             console.log("No next behaviors found. Ending execution.");
-            return;
+            return null;
         }
 
         // Go through each behavior to find the next valid one
@@ -162,12 +170,12 @@ class Runtime {
 
             const isValidBehavior = nextPreMeta.isWorldStateValidForBehavior;
             if (isValidBehavior || isValidBehavior === null) {
-                this.currentNode = nextNode;
-                await this.visitCurrentNode();
                 // Assuming only one valid next behavior should be possible.
-                break; 
+                // Can extend this later to support branching.
+                return nextNode;
             }
         }
+        return null;
     }
 }
 
