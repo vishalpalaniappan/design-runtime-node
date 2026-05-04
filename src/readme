@@ -1,6 +1,6 @@
 # Planning
 
-In think the fundamental premise in both the design and implementation execution using traces is that we are once again understanding through the design. The inputs in the traces are impulses into the design and the behavior is the response. The order of those inputs is preserved by the trace and is reintroduced into the design.
+The fundamental premise here is that when executing the design and implementation using eh traces, we are once again understanding it through the design. The inputs in the traces are impulses into the design and the behavior is the response. The order of those inputs is preserved by the trace and is reintroduced into the design.
 
 # Executing Designs from Traces
 
