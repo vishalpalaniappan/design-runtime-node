@@ -158,30 +158,51 @@ class Runtime {
             this.sink.logParticipant(behavior.getName(), participant, "post", this.worldState[participant]);
         }
 
-        // Get the possible next behaviors for current node
-        const nextBehaviors = this.currentNode._goToBehaviorIds;
-
-        // If there are no next behaviors, end execution.
-        if (nextBehaviors.length === 0) {
+        // Check if there is a next output in the behavior results
+        if (!("next" in results.output)) {
+            console.error("No next output found in behavior results.");
+            return;
+        }
+        if (results.output.next.length === 0) {
             console.log("No next behaviors found. Ending execution.");
-            return null;
+            return;
         }
 
-        // Go through each behavior to find the next valid one
-        for (const nextBehaviorName of nextBehaviors) {
-            const nextNode = this.design.graph.findNode(nextBehaviorName);
-            const nextBehavior = nextNode.getBehavior();
-            nextBehavior.setPreWorldState(this.worldState);
-            const nextPreMeta = nextBehavior.getPreExecutionMeta();
-
-            const isValidBehavior = nextPreMeta.isWorldStateValidForBehavior;
-            if (isValidBehavior || isValidBehavior === null) {
-                // Assuming only one valid next behavior should be possible.
-                // Can extend this later to support branching.
-                return nextNode;
-            }
+        // Valid next behaviors will have an entry with output with type select.
+        const nextBehaviors = results.output.next.filter((entry) => 
+            (entry.output && entry.output.type === "select")
+        );
+        
+        // No valid behaviors found
+        if (nextBehaviors.length === 0) {
+            console.log("No valid next behaviors found. Ending execution.");
+            return;
         }
-        return null;
+        // Multiple valid next behaviors are not supported.
+        if (nextBehaviors.length > 1) {
+            console.warn("Multiple valid next behaviors found. This is not currently supported");
+            return;
+        }
+
+        // Get the next behavior entry and validate it has the necessary nextBehavior field in its output.
+        const nextBehaviorEntry = nextBehaviors[0];
+        if (!nextBehaviorEntry) {
+            console.error("No valid next behavior entry found in behavior results.");
+            return;
+        }
+        if (!("nextBehavior" in nextBehaviorEntry.output)) {
+            console.error("No nextBehavior found in next output.");
+            return;
+        }
+
+        // Get the next node
+        const nextBehaviorName = nextBehaviorEntry.output.nextBehavior;
+        const nextNode = this.design.graph.findNode(nextBehaviorName);
+        if (!nextNode) {
+            console.error(`Next node ${nextBehaviorName} not found in the graph.`);
+            return;
+        }
+        return nextNode;
     }
 }
 
