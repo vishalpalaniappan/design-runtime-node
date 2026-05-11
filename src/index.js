@@ -2,6 +2,7 @@ import {run} from './designExecutor/designExecutor.js';
 import {DALEngine} from "dal-engine-core-js-lib-dev";
 import {readFile} from "fs/promises";
 import CollectInputs from "./collectInputs.js";
+import {runImplementation} from "./implementationExecutor/implementationExecutor.js";
 
 const loadDesign = async (path) => {
     const data = await readFile(path);
@@ -9,34 +10,73 @@ const loadDesign = async (path) => {
     engine.deserialize(data);
     return engine;
 }
-const args = process.argv;
-if (args.length < 3) {
-    console.error("Please provide the path to the design file as an argument.");
-    process.exit(1);
-}
 
 /**
- * TODO:
- * Add option to run the following
+ * Run design with following modes:
  * 1. Design with inputs from user
  * 2. Design with inputs from trace file (for replaying traces)
  * 3. Implementation with inputs from trace file (for replaying traces)
  * 
- * For completeness, I guess I could also let them run the implementation with user inputs
- * from this tool. Although that is simply running the python program because it will generate
- * the trace file on its own. Eventually all of this will be moved to the engine.
+ * node index.js design [path to design file] [optional: path to trace file for design execution]
+ * node index.js implementation [path to implementation file] [optional: path to trace file for implementation execution]
+ * 
+ * Tested:
+ * node src/index.js implementation designs/lib_man_no_invariant.dal
+ * node src/index.js design designs/lib_man_no_invariant.dal traces/invalid_name_failure.clp.zst
+ * node src/index.js implementation designs/library_manager.py
+ * 
+ * When the design is executed it will produce a trace file in the folder where the script is called from (the working directory).
+ * When replaying execution with trace file, I am relying on the workbench to instrument the program before
+ * calling this method. So the natural next move is to move the instrumenter here and and first instrument it before executing it.
+ * 
+ * TODO: Move instrumenter into this tool and instrument before executing implementaiton (with and without trace file).
  */
+const main = async () => {
+    const args = process.argv;
 
-const path = args[2];
-const trace = args[3];
-try {
-    let inputs;
-    if (trace) {
-        inputs = await CollectInputs(trace);
+    const type = (args.length < 3) ? null : args[2];
+    if (type !== "design" && type !== "implementation") {
+        console.error("Invalid type argument. Please use 'design' or 'implementation'.");
+        process.exit(1);
+    } else {
+        console.log(`Running ${type}...`);
     }
-    const designEngine = await loadDesign(path);
-    await run(designEngine, inputs);
+
+    const path = (args.length < 4) ? null : args[3];
+    if (!path) {
+        console.error("Please provide the path to the design or implementation file as an argument.");
+        process.exit(1);
+    } else {
+        console.log(`Using file: ${path}`);
+    }
+
+    const trace = (args.length < 5) ? null : args[4];
+    if (trace) {
+        console.log(`Using trace file: ${trace}`);
+    } else {
+        console.log("No trace file provided. Running without trace.");
+    }
+
+    try {
+        let inputs;
+        if (trace) {
+            inputs = await CollectInputs(trace);
+        }
+        if (type === "implementation") {
+            await runImplementation(path, inputs);
+        } else if (type === "design") {
+            const designEngine = await loadDesign(path);
+            await run(designEngine, inputs);
+        }
+    } catch (err) {
+        console.error(`Error: ${err.message}`);
+        process.exit(1);
+    }
+}
+
+try {
+    await main();
 } catch (err) {
-    console.error(`Error: ${err.message}`);
+    console.error(`Unexpected error: ${err.message}`);
     process.exit(1);
 }
