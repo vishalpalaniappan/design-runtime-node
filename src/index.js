@@ -33,10 +33,8 @@ const loadDesign = async (path) => {
  * 
  * TODO: In the long run, it makes sense to write the engine in C++ and then create FFI libraries using it.
  * 
- * TODO: Sometimes I wonder why I have to implement it again if the computable model already performs the transformations. There are
- * substrate level realizations that happen around the behaviors, but the transformations are the same and their meaning is etsablished
- * In this model, the engine would become the program, instead of writing code with no meaning, the meaning of the semantics is the 
- * implementation.
+ * TODO: I think that the next step in this process is that the semantic model is what actually realizes the transformations and the
+ * implementation is just substrate level mechanisms that are necessary for practically realizing the design.
  */
 const main = async () => {
     const args = process.argv;
