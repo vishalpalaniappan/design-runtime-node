@@ -33,10 +33,16 @@ const loadDesign = async (path) => {
  * 
  * TODO: In the long run, it makes sense to write the engine in C++ and then create FFI libraries using it.
  * 
- * TODO: I think that the next step in this process is that the semantic model is what actually realizes the transformations and the
+ * TODO: 
+ * I think that the next step in this process is that the semantic model is what actually realizes the transformations and the
  * implementation is just substrate level mechanisms that are necessary for practically realizing the design. It would turn programming
  * into semantic modelling where meaning is what is being implemented, it would truly be a semantic world engine. The implementation is
  * just the connectors that allow the semantic model to interact with the world and realize its meaning in the world. 
+ * 
+ * I can call it a semantic programming language and the substrate level connectors are what connect it to the outside world. 
+ * For example, in a distributed system, the network would connect the semantic engine running on different machines, its 
+ * literally the same design running. This does feel like the natural next step because why am I implementing the same 
+ * transformations as the engine? It is already computing the transformations, I just need to enable it to interact with reality.
  */
 const main = async () => {
     const args = process.argv;
