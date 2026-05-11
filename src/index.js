@@ -1,4 +1,4 @@
-import {run} from './executor.js';
+import {run} from './designExecutor.js';
 import {DALEngine} from "dal-engine-core-js-lib-dev";
 import {readFile} from "fs/promises";
 import CollectInputs from "./collectInputs.js";
