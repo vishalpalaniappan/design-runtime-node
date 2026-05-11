@@ -30,6 +30,13 @@ const loadDesign = async (path) => {
  * calling this method. So the natural next move is to move the instrumenter here and and first instrument it before executing it.
  * 
  * TODO: Move instrumenter into this tool and instrument before executing implementaiton (with and without trace file).
+ * 
+ * TODO: In the long run, it makes sense to write the engine in C++ and then create FFI libraries using it.
+ * 
+ * TODO: Sometimes I wonder why I have to implement it again if the computable model already performs the transformations. There are
+ * substrate level realizations that happen around the behaviors, but the transformations are the same and their meaning is etsablished
+ * In this model, the engine would become the program, instead of writing code with no meaning, the meaning of the semantics is the 
+ * implementation.
  */
 const main = async () => {
     const args = process.argv;
