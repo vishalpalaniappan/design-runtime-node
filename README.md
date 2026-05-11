@@ -15,7 +15,16 @@ This also demonstrates one of the framework’s most powerful features, the trac
 # Usage
 
 
-# Background
+# Executing Semantic Model
+
+The design itself consists of a collection of behaviors, where each one is specified in the behavioral scripting language. The full life cycle of each behavior is defined, meaning that the model can compute the behavior directly (starting at the atomic behavior) and move onto the next behavior given the resulting world state. The actual realization of the scripting languge happens in the engine, so this tool just implements the scaffolding to make that possible.
+
+It can be argued that this tools functionality can be contained inside the engine and ultimately I think that it is correct. I primarly wrote it as a separate tool because I wanted to setup the functionality to get the input from the user in nodejs so the server can use it. However, the actual logic can be moved to the engine, and it simply provides a prompt to the consuming application to request a value. I can also produce node and browser builds of the engine so that I can even move the input functionality into the engine.
+
+For now, I will keep it as a separate tool.
+
+# Using Trace Inputs
+
 
 
 # Providing feedback
