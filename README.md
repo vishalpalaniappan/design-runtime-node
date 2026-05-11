@@ -14,17 +14,21 @@ This also demonstrates one of the framework’s most powerful features, the trac
 
 # Usage
 
+# Background
+
+Before talking about the tool modes, I want to mention that all this functionality should be in the engine. It should be able to execute the design and
+implementation with and without the traces. Once I move the instrumentation to javascript, I will begin to make that move. I will provide node and browser
+builds so that the engine can determine if it can leverage the node features for running the implementation on the server. Ofcourse, the design itself can
+be executed anywhere because the engine does all the computation, even in the browser, I can provide a prompt for the user.
+
+I will outline this in more detail when I make the move but for now, all of this functionality will be contained in this tool. With that said, here are some
+more details on the supported modes.
 
 # Executing Semantic Model
 
 The design itself consists of a collection of behaviors, where each one is specified in the behavioral scripting language. The full life cycle of each behavior is defined, meaning that the model can compute the behavior directly (starting at the atomic behavior) and move onto the next behavior given the resulting world state. The actual realization of the scripting languge happens in the engine, so this tool just implements the scaffolding to make that possible.
 
-It can be argued that this tools functionality can be contained inside the engine and ultimately I think that it is correct. I primarly wrote it as a separate tool because I wanted to setup the functionality to get the input from the user in nodejs so the server can use it. However, the actual logic can be moved to the engine, and it simply provides a prompt to the consuming application to request a value. I can also produce node and browser builds of the engine so that I can even move the input functionality into the engine.
-
-For now, I will keep it as a separate tool.
-
-# Using Trace Inputs
-
+# Using Trace Inputs on Design and Implementation
 
 
 # Providing feedback
