@@ -1,32 +1,23 @@
 # design-runtime-node
-A tool that executes designs and produces semantic traces for analysis and debugging.
+
+This tool is a design runtime that can use inputs from trace files to run computable semantic models or implementations of semantic models while producing a compressed log file which represents the behavior of the design.
+
+This tool, written in nodejs, serves as the design runtime and its responsibilities are listed below:
+- Given a design file, it computes the design as one computable semantic module.
+- Given a trace file, it computes the design using the inputs from the trace file.
+- Given a trace file, it executes an implementation of the design written in python using inputs from the trace file.
+
+From the three use cases listed above, it can be argued that I could have split this tool in two, where one tool computes the design and the other uses the trace file to run the design or the implementation. However, the two features are so closely linked that it made sense to me to build them together. Perhaps in the future, one of the features will grow large and it will have to be split into multiple tools.
 
 # Usage
 
-Generic usage from repo root directory:
-```shell
-node src/index.js <path_to_design_file>
-```
 
-Example from repo root directory:
-```shell
-node src/index.js designs/demo2.dal
-```
+# Background
 
-This will create a log file in the repo root directory that can be ingested by the engine and automatically debugged. As the workflow below describes, this program will ultimately be used from the workbench, so the workflow that is established there will feed the generated trace to the engine.
 
-## Workflow
+# Providing feedback
 
-This tool executes design files and produces semantic execution traces that can be ingested by the DAL engine. Given a design file, it provides a command-line interface to execute the design and generate traces containing the relevant semantic information. These traces are then consumed by the DAL engine in the workbench, where they are used to perform automated debugging and analysis.
+You can use GitHub issues to [report a bug][bug-report] or [request a feature][feature-req].
 
-The tool is intended to run on the workbenches server, allowing users to execute designs from the terminal and load the resulting traces into the workbench for inspection. Support for live debugging will extend this workflow into an interactive experience, where execution results are streamed to the workbench in real time.
-
-I will share more about this as I continue but I think before I move forward with the automated debugging of execution traces in more detail, I should implement this so that I can complete that process and put it all together. In my first iteration, I intend to provide an interface in the workbench to execute the design with this tool and to bring in the resulting semantic traces to the workbench.
-
-## Background
-
-In the design-driven software development workflow, the user will first specify a design and use this tool to execute the design and establish its correctness. In this process, they will identify all the invariants intrinsic to the design. Only then will they move forward with the implementation of the design in a programming language. The design is then able to automatically debug the execution because it is the authoritative semantic model. Using the automatic debugging of the execution traces, the design will learn semantics that it must respect to realize its intentions on the substrate. 
-
-Every step of the process is explicit and done with clarity. The entire software development lifecycle is contained within this framework, producing a repository that is a complete and unambiguous record of the evolution of the design, its implementation, and its executions.
-
-When applied to distributed systems, this entire process collapses the incidental complexity of distributed logic. Not only does it create a layer which allows the creation, testing and verification of the design of the distributed system before implementing, it then automatically understands the distributed execution of the implementation as the behavior of a single unambiguous design.
+[bug-report]: https://github.com/vishalpalaniappan/design-runtime-node/issues
+[feature-req]: https://github.com/vishalpalaniappan/design-runtime-node/issues
