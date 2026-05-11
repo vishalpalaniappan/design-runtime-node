@@ -9,6 +9,9 @@ This tool, written in nodejs, serves as the design runtime and its responsibilit
 
 From the three use cases listed above, it can be argued that I could have split this tool in two, where one tool computes the design and the other uses the trace file to run the design or the implementation. However, the two features are so closely linked that it made sense to me to build them together. Perhaps in the future, one of the features will grow large and it will have to be split into multiple tools.
 
+This tool is used by the Workbench to run designs and instrumented implementations. The resulting trace files are then fed into the engine as part of the design feedback loop. From these traces, the engine can either identify the root cause of a failure or help the design learn new semantics revealed by inputs.
+This also demonstrates one of the framework’s most powerful features, the traces become authoritative environments for validating the behavior and invariants of the design.
+
 # Usage
 
 
