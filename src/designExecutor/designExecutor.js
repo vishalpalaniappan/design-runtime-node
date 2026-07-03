@@ -76,8 +76,8 @@ class Runtime {
      */
     async getInput (prompt) {
         if (this.inputs) {
-            if (value === null) {
-                console.log("No inputs left in replay. Ending execution.");
+            if (this.inputs.length === 0) {
+                return null;
             }
             const input = this.inputs.shift();
             return input.argumentValue;
