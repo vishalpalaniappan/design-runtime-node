@@ -209,7 +209,7 @@ class Runtime {
 
         // Get the next node
         const nextBehaviorName = nextBehaviorEntry.output.nextBehavior;
-        const nextNode = this.design.graph.findNode(nextBehaviorName);
+        const nextNode = this.design.graphs.getActiveGraph().findNode(nextBehaviorName);
         if (!nextNode) {
             console.error(`Next node ${nextBehaviorName} not found in the graph.`);
             return;
