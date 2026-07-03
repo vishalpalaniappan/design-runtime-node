@@ -77,7 +77,7 @@ class Runtime {
     async getInput (prompt) {
         if (this.inputs) {
             if (this.inputs.length === 0) {
-                return null;
+                throw new Error("No more inputs");
             }
             const input = this.inputs.shift();
             return input.argumentValue;
@@ -108,12 +108,17 @@ class Runtime {
         // Gather required inputs from the user based on pre-execution metadata
         if (preMeta.requiredInputs && preMeta.requiredInputs.length > 0) {
             for (const input of preMeta.requiredInputs) {
-                const value = await this.getInput(`Please provide a value for ${input}: `);
-                if (value === null) {
-                    console.log("No inputs left in replay. Ending execution.");
-                    return;
+                try {
+                    const value = await this.getInput(`Please provide a value for ${input}: `);
+                    behaviorArgs[input] = value;
+                } catch (e) {
+                    if (e.message === "No more inputs") {
+                        console.log("No inputs left in replay. Ending execution.");
+                        return;
+                    } else {
+                        throw e;
+                    }
                 }
-                behaviorArgs[input] = value;
             }
         }
 
