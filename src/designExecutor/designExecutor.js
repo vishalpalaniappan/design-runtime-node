@@ -76,6 +76,9 @@ class Runtime {
      */
     async getInput (prompt) {
         if (this.inputs) {
+            if (value === null) {
+                console.log("No inputs left in replay. Ending execution.");
+            }
             const input = this.inputs.shift();
             return input.argumentValue;
         } else {
@@ -106,6 +109,10 @@ class Runtime {
         if (preMeta.requiredInputs && preMeta.requiredInputs.length > 0) {
             for (const input of preMeta.requiredInputs) {
                 const value = await this.getInput(`Please provide a value for ${input}: `);
+                if (value === null) {
+                    console.log("No inputs left in replay. Ending execution.");
+                    return;
+                }
                 behaviorArgs[input] = value;
             }
         }
